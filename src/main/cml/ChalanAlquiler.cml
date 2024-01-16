@@ -1,0 +1,57 @@
+ContextMap InsuranceContextMap {
+    type = SYSTEM_LANDSCAPE
+    state = TO_BE
+
+    contains GestionDeAlquileres
+    contains Vehiculo
+    contains GestionDeClientes
+    contains Clientes
+    contains GestionDeVehiculos
+    contains GestionDePagos
+    contains Seguridad
+    contains Administrador
+    contains Recepcionista 
+
+    Vehiculo <- GestionDeVehiculos
+    Clientes <- GestionDeClientes
+    Administrador <- Seguridad
+    Recepcionista <- Seguridad
+    Administrador[SK] <-> [SK]Recepcionista
+    GestionDeAlquileres <- Recepcionista
+    GestionDeClientes <- Administrador
+    GestionDePagos <- Recepcionista
+
+}
+
+BoundedContext GestionDeAlquileres implements GestionDeAlquileres
+BoundedContext Vehiculo implements GestionDeVehiculos
+BoundedContext GestionDeClientes implements GestionDeClientes
+BoundedContext Clientes implements GestionDeClientes
+BoundedContext GestionDeVehiculos implements GestionDeVehiculos
+BoundedContext GestionDePagos implements GestionDePagos
+BoundedContext Seguridad implements Seguridad
+BoundedContext Administrador implements Seguridad
+BoundedContext Recepcionista implements Seguridad
+
+Domain InsureDomaind{
+    Subdomain GestionDeAlquileres{
+        type = CORE_DOMAIN
+        domainVisionStatement = "Subdominio para la gestión de alquileres de vehículos, reservas, rastreo de vehículos y contratos"
+    }
+    Subdomain GestionDeClientes{
+        type = SUPPORTING_DOMAIN
+        domainVisionStatement = "Subdominio para gestionar los clientes, perfiles y preferencias, creación de cuentas de usuario"
+    }
+    Subdomain GestionDeVehiculos{
+        type = SUPPORTING_DOMAIN
+        domainVisionStatement  = "Subdominio para gestionar vehículos, detalles de mantenimiento, características y disponiblidad"
+    }
+    Subdomain GestionDePagos{
+        type = GENERIC_SUBDOMAIN
+        domainVisionStatement = "Subdominio para la gestion de pagos, generar facturas y recivos por cada transaccion"
+    }
+    Subdomain Seguridad{
+        type = GENERIC_SUBDOMAIN
+        domainVisionStatement = "Subdominio para la autenticación y autorización, establecer políticas y protocolos de seguridad"
+    }
+}
